@@ -34,22 +34,25 @@ function liriFunc(inner){
             //console.log(work[0].venue.name)
         })
     }else if(inner[0]===acceptedCommands[1]){
-    if(!inner[1]){
-        inner[1] = "The Sign";
-    }
-    spotify.search({type: "track", query: inner[1]}, function(err, data){
-        if(err){
-            return console.log(err);
+        if(!inner[1]){
+            inner[1] = "The Sign";
         }
-        var work = data.tracks.items[0];
-       
-        console.log(`
-        The artist is ${work.artists[0].name}.
-        The song is called ${work.name}.
-        The song is on the album ${work.album.name}.
-        Follow this link to hear the song: ${work.preview_url}.
-        `);
-    })
+
+        var name = inner.slice(1).join(" ");
+
+        spotify.search({type: "track", query: name}, function(err, data){
+            if(err){
+                return console.log(err);
+            }
+            var work = data.tracks.items[0];
+
+            console.log(`
+            The artist is ${work.artists[0].name}.
+            The song is called ${work.name}.
+            The song is on the album ${work.album.name}.
+            Follow this link to hear the song: ${work.preview_url}.
+            `);
+        })
 
     }else if(inner[0]===acceptedCommands[2]){
         var name = ""
@@ -71,7 +74,16 @@ function liriFunc(inner){
                 return console.log(error);
             }
             var working = JSON.parse(body);
-            console.log(working)
+            console.log(`
+                The movie is called ${working.Title}.
+                It came out in ${working.Year}.
+                IMDB rated it ${working.imdbRating}.
+                Rotton Tomatoes rated it ${working.Ratings[1].Value}.
+                The movie was produced in ${working.Country}.
+                The languages of the film are ${working.Language}.
+                The film featured ${working.Actors}.
+                Film Plot: ${working.Plot}
+            `)
         })
     }else if(inner[0]===acceptedCommands[3]){
         var work = "";
